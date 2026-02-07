@@ -1,11 +1,10 @@
 # Pearson_Correlation_Coefficient_SQL
-**** Information ****
+A investigation into how to better corroborate or reject gut feeling hypothesis from non technical stakeholders..
 
-Useful for quick investigations over a large dataset within a data warehouse/sql server etc
+The idea behind exploratory data analysis in theory is about exploration, but in reality, it is based on stakeholder X's theory of what is driving something. How can we validate these ideas before having to create dashboards, excel exports out of data warehouses, which allow the opportunity for data to be further "massaged" to fit a narrative.
 
-We will only use basic functions. This can be used across any variation of SQL.
+This is where the Pearson Correlation Coefficient comes in. This is not a new concept, but I have not seen its application in such a way in my experience before.
 
-**Two motivations behind this:**
-1) I once read how it is long winded and not efficient to do and wanted to challenge myself
+I have wrote a query which explores the relationship between 2 variables, which can be easily adapted. Furthermore if there is interesting insights, it can be further developed to deploy answers over other categorical values, for example by rolling the results up against countries.
 
-2) Before embarking a broader exploratory data analysis with stakeholders, we can verify early on if the numbers agree with the logic.
+This is meant to be a useful for quick investigations over a large dataset within a data warehouse/sql server and will use only basic functions which allows it to be used across any variation of SQL.
