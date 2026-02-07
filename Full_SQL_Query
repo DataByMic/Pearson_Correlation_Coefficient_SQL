@@ -1,0 +1,27 @@
+/* Using a Pearson Correlation Coefficient to Explore Relationships between columns */
+/* In this example we look to explore the relationship between total sales and quantity by a specific entity, however this can be adjusted and done over the whole dataset if you please */
+/* Values to adjust - TotalSales, QuantityPurchased, Conditional statements i.e. Where, Group By and Order By clauses */
+
+WITH Pearson_Correlation_Coefficient AS(
+SELECT
+CASE WHEN TotalSales IS NULL THEN 0 ELSE TotalSales END AS "TotalSales(X)",                      
+COUNT(QuantityPurchased) as "QuantityPurchased(Y)",
+SUM(CASE WHEN TotalSales IS NULL THEN 0 ELSE TotalSales END) OVER () AS "TotalSales{X}",
+SUM(COUNT(QuantityPurchased)) OVER () AS "TotalQuantity{Y}",
+"TotalSales(X)" - "TotalSales{X}" AS "(X)-{X}",
+"TotalQuantity(Y)" - "TotalQuantity{Y}" AS "(Y)-{Y}",
+TRUNC("(X)-{X}"*"(Y)-{Y}",5) AS "(X)-{X}*(Y)-{Y}",
+SQUARE("(X)-{X}") AS "(X)-{X}2",
+SQUARE("(Y)-{Y}") AS "(Y)-{Y}2"
+FROM Warehouse.Schema.AllCompanyOrders
+WHERE ClientName = 'ABC'
+Group by ClientName, TotalSales, Totalquantity
+ORDER BY "TotalSales(X)" DESC)
+
+SELECT 
+SUM(TRUNC("(X)-{X}"*"(Y)-{Y}",5)) OVER () AS "(X)-{X}*(Y)-{Y}",
+SUM(SQUARE("(X)-{X}")) OVER () AS "(X)-{X}2",
+SUM(SQUARE("(Y)-{Y}")) OVER () AS "(Y)-{Y}2",
+"(X)-{X}*(Y)-{Y}"/(sqrt("(X)-{X}2")*sqrt("(Y)-{Y}2")) AS "Coeffcient"
+FROM Pearson_Correlation_Coefficient
+LIMIT 1
